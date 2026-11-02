@@ -4,6 +4,8 @@ export const config = {
   // Public URL of this server (used in Idram links and in the app)
   publicUrl: process.env.PUBLIC_URL ?? "http://localhost:8080",
   dbFile: process.env.DB_FILE ?? "hovo.db",
+  // Folder with the built web app (PWA). When set, the server also serves the app at "/".
+  webDir: process.env.WEB_DIR ?? "",
 
   idram: {
     // When true, a fake payment page is shown instead of Idram (for development).

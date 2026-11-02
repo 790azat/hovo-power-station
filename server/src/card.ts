@@ -140,7 +140,7 @@ export function cardRouter(markPaid: (orderId: number, transId: string | null, p
 
   const done = (ok: boolean) =>
     `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="font-family:system-ui;text-align:center;padding-top:30vh">` +
-    `<h2>${ok ? "✅" : "❌"}</h2></body>`;
+    `<h2>${ok ? "✅" : "❌"}</h2><script>setTimeout(function(){location.href='/'},1500)</script></body>`;
 
   // Bank redirects here after card entry (both for linking and for paying)
   r.get("/card/return", async (req, res) => {

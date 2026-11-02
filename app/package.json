@@ -37,7 +37,8 @@
     "web": "expo start --web",
     "typecheck": "tsc --noEmit",
     "build:web": "expo export --platform web && node scripts/pwa.js",
-    "build:demo": "EXPO_PUBLIC_DEMO=1 EXPO_BASE_URL=/hovo-power-station npm run build:web"
+    "build:demo": "EXPO_PUBLIC_DEMO=1 EXPO_BASE_URL=/hovo-power-station npm run build:web",
+    "build:live": "EXPO_PUBLIC_API_URL=same-origin npm run build:web"
   },
   "private": true
 }

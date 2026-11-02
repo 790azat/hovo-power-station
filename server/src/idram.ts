@@ -96,9 +96,14 @@ idramRouter.post("/idram/mock-pay/:orderId", async (req, res) => {
   res.redirect(`/idram/success?EDP_BILL_NO=${req.params.orderId}`);
 });
 
-idramRouter.all("/idram/success", (_req, res) => res.send(page("OK", "<h2>✅ Payment received</h2>")));
+const backToApp = (path = "/") => `<script>setTimeout(function(){location.href=${JSON.stringify(path)}},1500)</script>`;
+idramRouter.all("/idram/success", (req, res) => {
+  const bill = Number((req.query.EDP_BILL_NO ?? req.body?.EDP_BILL_NO) as string);
+  const sessionId = bill ? q.order(bill)?.session_id : null;
+  res.send(page("OK", "<h2>✅ Payment received</h2>" + backToApp(sessionId ? `/session/${sessionId}` : "/")));
+});
 idramRouter.all("/idram/fail", (req, res) => {
   const bill = Number((req.query.EDP_BILL_NO ?? req.body?.EDP_BILL_NO) as string);
   if (bill) db.prepare("UPDATE orders SET status = 'failed' WHERE id = ? AND status = 'pending'").run(bill);
-  res.send(page("Fail", "<h2>Payment cancelled</h2>"));
+  res.send(page("Fail", "<h2>Payment cancelled</h2>" + backToApp()));
 });

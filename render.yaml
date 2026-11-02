@@ -1,0 +1,28 @@
+# One-click deploy of the server on Render: https://render.com/deploy?repo=https://github.com/790azat/hovo-power-station
+services:
+  - type: web
+    name: hovo-server
+    runtime: docker
+    rootDir: server
+    plan: starter            # always-on: chargers keep a WebSocket open (free plan sleeps)
+    region: frankfurt
+    healthCheckPath: /health
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: PUBLIC_URL
+        sync: false          # e.g. https://hovo-server.onrender.com
+      - key: IDRAM_MOCK
+        value: "1"           # set to 0 after the Idram contract
+      - key: IDRAM_REC_ACCOUNT
+        sync: false
+      - key: IDRAM_SECRET_KEY
+        sync: false
+      - key: CARD_MOCK
+        value: "1"           # set to 0 after the bank contract
+      - key: CARD_GATEWAY_USERNAME
+        sync: false
+      - key: CARD_GATEWAY_PASSWORD
+        sync: false
