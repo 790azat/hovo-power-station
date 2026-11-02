@@ -1,8 +1,11 @@
+import { useState } from "react";
+import { View } from "react-native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LangProvider, useT } from "../lib/i18n";
 import { colors } from "../lib/theme";
+import { Intro } from "../components/Intro";
 
 function Nav() {
   const { t } = useT();
@@ -29,11 +32,15 @@ function Nav() {
 }
 
 export default function RootLayout() {
+  const [intro, setIntro] = useState(true);
   return (
     <SafeAreaProvider style={{ backgroundColor: colors.bg }}>
       <LangProvider>
         <StatusBar style="light" />
-        <Nav />
+        <View style={{ flex: 1 }}>
+          <Nav />
+          {intro && <Intro onDone={() => setIntro(false)} />}
+        </View>
       </LangProvider>
     </SafeAreaProvider>
   );
