@@ -15,12 +15,12 @@ export function ChargeRing({ progress, size = 260, stroke = 18, children }: {
       <Svg width={size} height={size} style={{ position: "absolute", transform: [{ rotate: "-90deg" }] }}>
         <Defs>
           <LinearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0" stopColor="#e5ff8f" />
+            <Stop offset="0" stopColor="#5fd9a8" />
             <Stop offset="0.5" stopColor={colors.primary} />
             <Stop offset="1" stopColor={colors.primary2} />
           </LinearGradient>
         </Defs>
-        <Circle cx={size / 2} cy={size / 2} r={r} stroke="rgba(163,247,90,0.08)" strokeWidth={stroke} fill="none" />
+        <Circle cx={size / 2} cy={size / 2} r={r} stroke="rgba(255,255,255,0.06)" strokeWidth={stroke} fill="none" />
         <Circle
           cx={size / 2} cy={size / 2} r={r} stroke="url(#g)" strokeWidth={stroke} fill="none"
           strokeLinecap="round" strokeDasharray={`${c * p} ${c}`}

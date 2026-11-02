@@ -30,7 +30,7 @@ export function StationMap({ stations, selectedId, onSelect, locateBottom }: Sta
               onSelect(s);
             }}
           >
-            <View style={[st.pinHalo, { backgroundColor: markerColor(s) + "33" }, selectedId === s.id && st.pinSelected]}>
+            <View style={[st.pinHalo, { backgroundColor: markerColor(s) + "26" }, selectedId === s.id && st.pinSelected]}>
               <View style={[st.pin, { backgroundColor: markerColor(s) }]}>
                 <Text style={st.pinText}>⚡</Text>
               </View>
@@ -39,7 +39,7 @@ export function StationMap({ stations, selectedId, onSelect, locateBottom }: Sta
         ))}
       </MapView>
       <Pressable style={[st.locate, { bottom: locateBottom }]} onPress={locate}>
-        <Text style={{ fontSize: 20, color: "#a3f75a" }}>➤</Text>
+        <Text style={{ fontSize: 20, color: "#3ccb91" }}>➤</Text>
       </Pressable>
     </>
   );

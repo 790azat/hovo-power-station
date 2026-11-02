@@ -92,7 +92,7 @@ const s = StyleSheet.create({
   btnWrap: { borderRadius: radius.md },
   btn: { minHeight: 56, borderRadius: radius.md, alignItems: "center", justifyContent: "center", paddingHorizontal: 20 },
   primaryShadow: {
-    shadowColor: colors.primary, shadowOpacity: 0.35, shadowRadius: 18, shadowOffset: { width: 0, height: 6 }, elevation: 8,
+    shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 10, shadowOffset: { width: 0, height: 4 }, elevation: 4,
   },
   secondary: { backgroundColor: colors.card2, borderWidth: 1, borderColor: colors.borderStrong },
   ghost: { backgroundColor: "transparent" },
@@ -102,7 +102,6 @@ const s = StyleSheet.create({
   },
   cardGlow: {
     borderColor: colors.borderStrong,
-    shadowColor: colors.primary, shadowOpacity: 0.18, shadowRadius: 24, shadowOffset: { width: 0, height: 0 },
   },
   center: { flex: 1, alignItems: "center", justifyContent: "center", padding: 24, gap: 16, backgroundColor: colors.bg },
   chip: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 999, alignSelf: "flex-start" },

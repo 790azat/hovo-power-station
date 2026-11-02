@@ -1,31 +1,31 @@
-// Hovo design tokens — dark "charged" theme matching the app icon.
+// Hovo design tokens: calm graphite dark theme with one emerald accent (no neon).
 export const colors = {
-  bg: "#06120c",
-  bgElevated: "#0a1a12",
-  card: "#0f2219",
-  card2: "#14301f",
-  glass: "rgba(10, 26, 18, 0.86)",
-  border: "rgba(163, 247, 90, 0.10)",
-  borderStrong: "rgba(163, 247, 90, 0.28)",
-  text: "#ecfdf3",
-  muted: "#8aa999",
-  faint: "#4d6b5b",
-  primary: "#a3f75a", // lime (icon bolt)
-  primary2: "#22c55e", // green
-  onPrimary: "#05170c",
-  primarySoft: "rgba(163, 247, 90, 0.12)",
-  warn: "#fbbf24",
-  warnSoft: "rgba(251, 191, 36, 0.14)",
-  danger: "#f87171",
-  dangerSoft: "rgba(248, 113, 113, 0.14)",
-  offline: "#5f7368",
-  offlineSoft: "rgba(95, 115, 104, 0.2)",
+  bg: "#0d0f12",
+  bgElevated: "#14171b",
+  card: "#181b20",
+  card2: "#1f2329",
+  glass: "rgba(20, 23, 27, 0.92)",
+  border: "rgba(255, 255, 255, 0.06)",
+  borderStrong: "rgba(255, 255, 255, 0.14)",
+  text: "#f4f6f8",
+  muted: "#8c939d",
+  faint: "#4a515b",
+  primary: "#3ccb91", // calm emerald accent
+  primary2: "#2bb37d",
+  onPrimary: "#07130d",
+  primarySoft: "rgba(60, 203, 145, 0.12)",
+  warn: "#f2b84b",
+  warnSoft: "rgba(242, 184, 75, 0.14)",
+  danger: "#f26d6d",
+  dangerSoft: "rgba(242, 109, 109, 0.14)",
+  offline: "#5c636d",
+  offlineSoft: "rgba(140, 147, 157, 0.14)",
 };
 
 export const gradients = {
-  primary: ["#d9ff7a", "#a3f75a", "#22c55e"] as const,
-  hero: ["#16402b", "#0b2116", "#07140d"] as const,
-  danger: ["#fb8a8a", "#ef4444"] as const,
+  primary: ["#3ccb91", "#33bf88"] as const,
+  hero: ["#1c2026", "#15181d"] as const,
+  danger: ["#f26d6d", "#e35a5a"] as const,
 };
 
 export const radius = { sm: 12, md: 16, lg: 22, xl: 28 };

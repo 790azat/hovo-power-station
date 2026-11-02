@@ -19,7 +19,7 @@ export default function Scan() {
     return (
       <Center>
         <Text style={{ fontSize: 44 }}>📷</Text>
-        <Text style={{ fontSize: 17, textAlign: "center", color: "#ecfdf3" }}>{t("cameraNeeded")}</Text>
+        <Text style={{ fontSize: 17, textAlign: "center", color: "#f4f6f8" }}>{t("cameraNeeded")}</Text>
         <Button title={t("allow")} onPress={requestPermission} style={{ alignSelf: "stretch" }} />
         <Button title={t("cancel")} variant="secondary" onPress={() => router.back()} style={{ alignSelf: "stretch" }} />
       </Center>
@@ -55,7 +55,7 @@ export default function Scan() {
 const s = StyleSheet.create({
   overlay: { flex: 1, alignItems: "center", justifyContent: "space-between" },
   hint: { color: "#fff", fontSize: 17, fontWeight: "600", textAlign: "center", paddingHorizontal: 24 },
-  frame: { width: 260, height: 260, borderWidth: 3, borderColor: "#a3f75a", borderRadius: 32, shadowColor: "#a3f75a", shadowOpacity: 0.8, shadowRadius: 20 },
-  close: { backgroundColor: "rgba(6,18,12,0.7)", borderWidth: 1, borderColor: "rgba(163,247,90,0.3)", paddingHorizontal: 28, paddingVertical: 14, borderRadius: 14 },
+  frame: { width: 260, height: 260, borderWidth: 3, borderColor: "#ffffff", borderRadius: 32 },
+  close: { backgroundColor: "rgba(13,15,18,0.75)", borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", paddingHorizontal: 28, paddingVertical: 14, borderRadius: 14 },
   closeText: { color: "#fff", fontSize: 17, fontWeight: "600" },
 });

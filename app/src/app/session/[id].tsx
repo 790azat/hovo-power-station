@@ -127,7 +127,7 @@ function Stat({ icon, label, value }: { icon: string; label: string; value: stri
 const st = StyleSheet.create({
   ringGlow: {
     position: "absolute", top: 40, width: 180, height: 180, borderRadius: 90, backgroundColor: colors.primary,
-    opacity: 0.08, shadowColor: colors.primary, shadowOpacity: 1, shadowRadius: 60,
+    opacity: 0,
   },
   big: { fontSize: 56, fontWeight: "900", color: colors.text, letterSpacing: -2 },
   unit: { fontSize: 15, fontWeight: "700", color: colors.muted, marginTop: -4 },

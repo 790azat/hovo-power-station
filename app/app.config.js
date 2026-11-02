@@ -4,7 +4,7 @@
 //   EXPO_BASE_URL            – sub-path for the web build, e.g. /hovo-power-station on GitHub Pages
 module.exports = ({ config }) => ({
   ...config,
-  web: { ...config.web, output: "single", bundler: "metro", name: "Hovo Power", shortName: "Hovo", themeColor: "#06120c" },
+  web: { ...config.web, output: "single", bundler: "metro", name: "Hovo Power", shortName: "Hovo", themeColor: "#0d0f12" },
   experiments: { ...(config.experiments ?? {}), baseUrl: process.env.EXPO_BASE_URL || undefined },
   plugins: [
     ...(config.plugins ?? []),

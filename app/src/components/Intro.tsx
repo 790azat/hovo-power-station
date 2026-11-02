@@ -52,25 +52,24 @@ export function Intro({ onDone }: { onDone: () => void }) {
             <Defs>
               <LinearGradient id="ig" x1="0" y1="1" x2="1" y2="0">
                 <Stop offset="0" stopColor={colors.primary2} />
-                <Stop offset="1" stopColor="#d9ff7a" />
+                <Stop offset="1" stopColor="#5fd9a8" />
               </LinearGradient>
             </Defs>
-            <Circle cx={SIZE / 2} cy={SIZE / 2} r={R} stroke="rgba(163,247,90,0.08)" strokeWidth={STROKE} fill="none" />
+            <Circle cx={SIZE / 2} cy={SIZE / 2} r={R} stroke="rgba(255,255,255,0.06)" strokeWidth={STROKE} fill="none" />
             <Circle
               cx={SIZE / 2} cy={SIZE / 2} r={R} stroke="url(#ig)" strokeWidth={STROKE} fill="none" strokeLinecap="round"
               strokeDasharray={`${Math.max(0.001, ringP) * C} ${C}`}
             />
           </Svg>
           <Animated.View style={{ opacity: bolt, transform: [{ scale: boltScale }] }}>
-            <Svg width={SIZE * 0.62} height={SIZE * 0.62} viewBox="300 180 430 670">
+            <Svg width={SIZE * 0.54} height={SIZE * 0.54} viewBox="300 180 430 670">
               <Defs>
                 <LinearGradient id="bg" x1="0" y1="0" x2="0.4" y2="1">
-                  <Stop offset="0" stopColor="#f4ff9a" />
-                  <Stop offset="0.5" stopColor="#b6f23c" />
-                  <Stop offset="1" stopColor="#22c55e" />
+                  <Stop offset="0" stopColor="#ffffff" />
+                  <Stop offset="1" stopColor="#e3e7ec" />
                 </LinearGradient>
               </Defs>
-              <Path d={BOLT} fill="url(#bg)" stroke="#eaffc2" strokeWidth={10} strokeLinejoin="round" />
+              <Path d={BOLT} fill="url(#bg)" stroke="none" strokeWidth={0} strokeLinejoin="round" />
             </Svg>
           </Animated.View>
         </View>
@@ -87,11 +86,11 @@ export function Intro({ onDone }: { onDone: () => void }) {
 
 const s = StyleSheet.create({
   wrap: { backgroundColor: colors.bg, alignItems: "center", justifyContent: "center", zIndex: 100 },
-  flash: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(163,247,90,0.12)" },
+  flash: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(255,255,255,0.05)" },
   logo: { width: SIZE, height: SIZE, alignItems: "center", justifyContent: "center" },
   glow: {
     position: "absolute", width: SIZE * 0.8, height: SIZE * 0.8, borderRadius: SIZE, backgroundColor: colors.primary,
-    opacity: 0.12, shadowColor: colors.primary, shadowOpacity: 1, shadowRadius: 50,
+    opacity: 0.0,
   },
   word: { fontSize: 30, fontWeight: "900", letterSpacing: 4, color: colors.text },
   tag: { fontSize: 11, fontWeight: "700", letterSpacing: 3, color: colors.muted, marginTop: 8 },

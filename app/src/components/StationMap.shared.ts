@@ -15,21 +15,21 @@ export const markerColor = (s: Station) =>
 
 // Dark style for Google Maps on Android (iOS Apple Maps follows the dark appearance automatically)
 export const darkMapStyle = [
-  { elementType: "geometry", stylers: [{ color: "#0b1a12" }] },
-  { elementType: "labels.text.fill", stylers: [{ color: "#7c9a8a" }] },
-  { elementType: "labels.text.stroke", stylers: [{ color: "#06120c" }] },
+  { elementType: "geometry", stylers: [{ color: "#121417" }] },
+  { elementType: "labels.text.fill", stylers: [{ color: "#7d848e" }] },
+  { elementType: "labels.text.stroke", stylers: [{ color: "#0d0f12" }] },
   { featureType: "poi", stylers: [{ visibility: "off" }] },
-  { featureType: "road", elementType: "geometry", stylers: [{ color: "#173526" }] },
-  { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#1f4a33" }] },
-  { featureType: "water", elementType: "geometry", stylers: [{ color: "#061a1f" }] },
+  { featureType: "road", elementType: "geometry", stylers: [{ color: "#22262c" }] },
+  { featureType: "road.highway", elementType: "geometry", stylers: [{ color: "#2a2f36" }] },
+  { featureType: "water", elementType: "geometry", stylers: [{ color: "#0b1218" }] },
   { featureType: "transit", stylers: [{ visibility: "off" }] },
 ];
 
 export const st = StyleSheet.create({
   pinHalo: { width: 54, height: 54, borderRadius: 27, alignItems: "center", justifyContent: "center" },
-  pin: { width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "#06120c" },
+  pin: { width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center", borderWidth: 2, borderColor: "#0d0f12" },
   pinSelected: { transform: [{ scale: 1.2 }] },
-  pinText: { fontSize: 17, color: "#06120c", fontWeight: "900" },
+  pinText: { fontSize: 16, color: "#0d0f12", fontWeight: "900" },
   locate: {
     position: "absolute", right: 16, width: 50, height: 50, borderRadius: 25, backgroundColor: colors.glass,
     borderWidth: 1, borderColor: colors.borderStrong, alignItems: "center", justifyContent: "center",

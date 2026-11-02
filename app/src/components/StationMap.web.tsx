@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { Pressable, Text, View } from "react-native";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "./StationMap.web.css";
 import type { Station } from "../lib/api";
 import { markerColor, st, YEREVAN, type StationMapProps } from "./StationMap.shared";
 
@@ -16,10 +17,10 @@ const icon = (s: Station, selected: boolean) => {
     className: "",
     iconSize: [halo, halo],
     iconAnchor: [halo / 2, halo / 2],
-    html: `<div style="width:${halo}px;height:${halo}px;border-radius:50%;background:${c}2e;display:flex;align-items:center;justify-content:center;
-      ${selected ? `box-shadow:0 0 0 2px ${c}66, 0 0 28px ${c}aa;` : ""}transition:all .2s">
-      <div style="width:${size}px;height:${size}px;border-radius:50%;background:${c};border:2px solid #06120c;
-      box-shadow:0 0 18px ${c}99;display:flex;align-items:center;justify-content:center;font-size:${selected ? 20 : 17}px;color:#06120c;font-weight:900;box-sizing:border-box">⚡</div></div>`,
+    html: `<div style="width:${halo}px;height:${halo}px;border-radius:50%;background:${c}22;display:flex;align-items:center;justify-content:center;
+      ${selected ? `box-shadow:0 0 0 2px ${c}88;` : ""}transition:all .2s">
+      <div style="width:${size}px;height:${size}px;border-radius:50%;background:${c};border:2px solid #0d0f12;
+      box-shadow:0 2px 8px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:${selected ? 20 : 17}px;color:#06120c;font-weight:900;box-sizing:border-box">⚡</div></div>`,
   });
 };
 
@@ -33,9 +34,9 @@ export function StationMap({ stations, selectedId, onSelect, locateBottom }: Sta
   useEffect(() => {
     if (!el.current || map.current) return;
     const m = L.map(el.current, { zoomControl: false, attributionControl: true }).setView([YEREVAN.latitude, YEREVAN.longitude], 12);
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
-      attribution: "© OpenStreetMap © CARTO", subdomains: "abcd",
+      attribution: "© OpenStreetMap", className: "hovo-dark-tiles",
     }).addTo(m);
     m.on("click", () => onSelectRef.current(null));
     layer.current = L.layerGroup().addTo(m);
@@ -65,17 +66,17 @@ export function StationMap({ stations, selectedId, onSelect, locateBottom }: Sta
   const locate = () => {
     navigator.geolocation?.getCurrentPosition((pos) => {
       map.current?.flyTo([pos.coords.latitude, pos.coords.longitude], 14);
-      L.circleMarker([pos.coords.latitude, pos.coords.longitude], { radius: 8, color: "#06120c", fillColor: "#38bdf8", fillOpacity: 1, weight: 3 }).addTo(map.current!);
+      L.circleMarker([pos.coords.latitude, pos.coords.longitude], { radius: 8, color: "#0d0f12", fillColor: "#5aa9ff", fillOpacity: 1, weight: 3 }).addTo(map.current!);
     });
   };
 
   return (
     <>
       <View style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}>
-        <div ref={el} style={{ width: "100%", height: "100%", background: "#0b1a12" }} />
+        <div ref={el} style={{ width: "100%", height: "100%", background: "#121417" }} />
       </View>
       <Pressable style={[st.locate, { bottom: locateBottom }]} onPress={locate}>
-        <Text style={{ fontSize: 20, color: "#a3f75a" }}>➤</Text>
+        <Text style={{ fontSize: 20, color: "#3ccb91" }}>➤</Text>
       </Pressable>
     </>
   );

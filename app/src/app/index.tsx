@@ -53,7 +53,7 @@ export default function Home() {
 
       {/* top fade so the header reads over the map */}
       <LinearGradient
-        colors={["rgba(6,18,12,0.95)", "rgba(6,18,12,0)"]}
+        colors={["rgba(13,15,18,0.96)", "rgba(13,15,18,0)"]}
         style={[st.topFade, { height: insets.top + 150 }]}
         pointerEvents="none"
       />
@@ -90,7 +90,7 @@ export default function Home() {
 
         {active && (
           <Pressable onPress={() => router.push(`/session/${active.id}`)}>
-            <LinearGradient colors={["#1d5b34", "#123d24"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={st.activeBar}>
+            <LinearGradient colors={["#173a2c", "#14231d"]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={st.activeBar}>
               <View style={st.pulse} />
               <View style={{ flex: 1 }}>
                 <Text style={st.activeTitle}>{t("activeCharging")}</Text>
@@ -194,7 +194,7 @@ const st = StyleSheet.create({
     flexDirection: "row", alignItems: "center", gap: 12, borderRadius: radius.lg, padding: 14,
     borderWidth: 1, borderColor: colors.borderStrong,
   },
-  pulse: { width: 12, height: 12, borderRadius: 6, backgroundColor: colors.primary, shadowColor: colors.primary, shadowOpacity: 1, shadowRadius: 8 },
+  pulse: { width: 10, height: 10, borderRadius: 5, backgroundColor: colors.primary },
   activeTitle: { color: colors.primary, fontWeight: "800", fontSize: 15 },
   activeSub: { color: colors.text, fontSize: 13, marginTop: 2 },
   sheet: {

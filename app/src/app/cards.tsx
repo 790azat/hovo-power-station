@@ -11,9 +11,9 @@ import { PayWebView } from "../components/PayWebView";
 import { confirm, notify } from "../lib/alert";
 
 const CARD_GRADIENTS = [
-  ["#1f5132", "#0d2a1a"],
-  ["#1e3a8a", "#0b1a40"],
-  ["#4c1d95", "#1e0b40"],
+  ["#2a3038", "#16191e"],
+  ["#1f3b5c", "#121c2b"],
+  ["#1d4a3b", "#11241e"],
 ] as const;
 
 export default function Cards() {
