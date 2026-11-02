@@ -28,6 +28,7 @@ const dict = {
   busy: { hy: "Զբաղված", ru: "Занят", en: "Busy" },
   unavailable: { hy: "Անհասանելի", ru: "Недоступен", en: "Unavailable" },
   freeOf: { hy: "ազատ", ru: "свободно", en: "free" },
+  route: { hy: "Երթուղի", ru: "Маршрут", en: "Route" },
   select: { hy: "Ընտրել", ru: "Выбрать", en: "Select" },
   myLocation: { hy: "Իմ դիրքը", ru: "Где я", en: "My location" },
   stations: { hy: "Կայաններ", ru: "Станции", en: "Stations" },

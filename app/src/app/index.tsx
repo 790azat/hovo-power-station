@@ -8,6 +8,7 @@ import { useT, type Lang } from "../lib/i18n";
 import { amd, colors } from "../lib/theme";
 import { Button, Card } from "../components/ui";
 import { StationMap } from "../components/StationMap";
+import { openRoute } from "../lib/route";
 
 export default function Home() {
   const { t, lang, setLang } = useT();
@@ -87,7 +88,21 @@ export default function Home() {
                 ? `${selected.freeConnectors}/${selected.connectors.length} ${t("freeOf")} · ${selected.pricePerKwh} ${t("perKwh")}`
                 : t("offline")}
             </Text>
-            <Button title={t("select")} onPress={() => router.push(`/station/${encodeURIComponent(selected.id)}`)} />
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              {selected.lat != null && selected.lng != null && (
+                <Button
+                  title={`🧭 ${t("route")}`}
+                  variant="secondary"
+                  onPress={() => openRoute(selected.lat!, selected.lng!)}
+                  style={{ flex: 1 }}
+                />
+              )}
+              <Button
+                title={t("select")}
+                onPress={() => router.push(`/station/${encodeURIComponent(selected.id)}`)}
+                style={{ flex: 1 }}
+              />
+            </View>
           </Card>
         ) : (
           <Card style={{ gap: 12 }}>

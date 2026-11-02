@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { router, Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { api, ApiError, type Connector, type PayMethod, type SavedCard, type Station } from "../../lib/api";
+import { openRoute } from "../../lib/route";
 import { notify } from "../../lib/alert";
 import { errorText, useT } from "../../lib/i18n";
 import { amd, colors } from "../../lib/theme";
@@ -85,6 +86,11 @@ export default function StationScreen() {
           {!!station.address && <Text style={s.muted}>{station.address}</Text>}
           <Text style={s.text}>{t("price")}: {station.pricePerKwh} {t("perKwh")}</Text>
           {!station.online && <Text style={{ color: colors.danger, fontWeight: "600" }}>{t("offline")}</Text>}
+          {station.lat != null && station.lng != null && (
+            <Pressable onPress={() => openRoute(station.lat!, station.lng!)} style={{ marginTop: 6 }}>
+              <Text style={{ color: colors.primary, fontSize: 16, fontWeight: "600" }}>🧭 {t("route")} · Yandex</Text>
+            </Pressable>
+          )}
         </Card>
 
         <Text style={s.h2}>{t("chooseConnector")}</Text>

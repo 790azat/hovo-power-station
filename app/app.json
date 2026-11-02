@@ -8,7 +8,13 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "am.hovo.power"
+      "bundleIdentifier": "am.hovo.power",
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": [
+          "yandexnavi",
+          "yandexmaps"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
