@@ -1,8 +1,9 @@
 // Station: choose connector, amount and payment method, then pay.
 import { useCallback, useState } from "react";
-import { Alert, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { router, Stack, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { api, ApiError, type Connector, type PayMethod, type SavedCard, type Station } from "../../lib/api";
+import { notify } from "../../lib/alert";
 import { errorText, useT } from "../../lib/i18n";
 import { amd, colors } from "../../lib/theme";
 import { Button, Card, Center } from "../../components/ui";
@@ -66,7 +67,7 @@ export default function StationScreen() {
       if (r.paid) router.replace(`/session/${r.sessionId}`);
       else router.push({ pathname: "/pay/[orderId]", params: { orderId: String(r.orderId), url: r.payUrl } });
     } catch (e) {
-      Alert.alert(errorText(t, e instanceof ApiError ? e.code : "generic"));
+      notify(errorText(t, e instanceof ApiError ? e.code : "generic"));
       load();
     } finally {
       setBusy(false);

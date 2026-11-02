@@ -1,17 +1,19 @@
 // Live charging session: status, energy, cost, stop.
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { api, ApiError, type Session } from "../../lib/api";
-import { errorText, useT, type Key } from "../../lib/i18n";
+import { errorText, hasKey, useT, type Key } from "../../lib/i18n";
 import { amd, colors } from "../../lib/theme";
 import { Button, Card, Center } from "../../components/ui";
+import { confirm, notify } from "../../lib/alert";
 
 const elapsed = (from: string | null, to: string | null) => {
   if (!from) return "0:00";
   const ms = (to ? new Date(to) : new Date()).getTime() - new Date(from).getTime();
-  const m = Math.max(0, Math.floor(ms / 60000));
-  return `${Math.floor(m / 60)}:${String(m % 60).padStart(2, "0")}`;
+  const sec = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), ss = sec % 60;
+  return h ? `${h}:${String(m).padStart(2, "0")}:${String(ss).padStart(2, "0")}` : `${m}:${String(ss).padStart(2, "0")}`;
 };
 
 export default function SessionScreen() {
@@ -38,23 +40,16 @@ export default function SessionScreen() {
   const reasonKey = ("reason_" + s.stopReason) as Key;
 
   const stop = () =>
-    Alert.alert(t("stopConfirm"), "", [
-      { text: t("no"), style: "cancel" },
-      {
-        text: t("yes"),
-        style: "destructive",
-        onPress: async () => {
-          setStopping(true);
-          try {
-            setS(await api.stop(s.id));
-          } catch (e) {
-            Alert.alert(errorText(t, e instanceof ApiError ? e.code : "generic"));
-          } finally {
-            setStopping(false);
-          }
-        },
-      },
-    ]);
+    confirm(t("stopConfirm"), "", t("yes"), t("no"), async () => {
+      setStopping(true);
+      try {
+        setS(await api.stop(s.id));
+      } catch (e) {
+        notify(errorText(t, e instanceof ApiError ? e.code : "generic"));
+      } finally {
+        setStopping(false);
+      }
+    });
 
   return (
     <ScrollView contentContainerStyle={{ padding: 16, gap: 16 }}>
@@ -63,9 +58,7 @@ export default function SessionScreen() {
         <Text style={st.status}>{t(("st_" + s.status) as Key)}</Text>
         <Text style={st.muted}>{s.stationName} · {t("connector")} {s.connectorId}</Text>
         {s.status === "starting" && <ActivityIndicator color={colors.primary} />}
-        {finished && s.stopReason && reasonKey.startsWith("reason_") && (
-          <Text style={st.muted}>{t(reasonKey) ?? ""}</Text>
-        )}
+        {finished && hasKey(reasonKey) && <Text style={st.muted}>{t(reasonKey)}</Text>}
       </Card>
 
       <View style={st.grid}>

@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API_URL } from "./config";
+import { API_URL, DEMO } from "./config";
+import { demoApi } from "./demo";
 
 export type Connector = { id: number; type: string; maxKw: number; status: string; busy: boolean };
 export type Station = {
@@ -20,11 +21,8 @@ export type OrderResult =
   | { orderId: number; paid: true; sessionId: string }
   | { orderId: number; paid: false; amount: number; fromBalance: number; payUrl: string };
 
-export class ApiError extends Error {
-  constructor(public code: string, public status: number) {
-    super(code);
-  }
-}
+import { ApiError } from "./errors";
+export { ApiError };
 
 let cachedUserId: string | null = null;
 async function getUserId() {
@@ -53,7 +51,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   return body as T;
 }
 
-export const api = {
+const realApi = {
   me: () => request<Me>("/me"),
   history: () => request<Session[]>("/me/sessions"),
   stations: () => request<Station[]>("/stations"),
@@ -71,6 +69,11 @@ export const api = {
   session: (id: string) => request<Session>(`/sessions/${id}`),
   stop: (id: string) => request<Session>(`/sessions/${id}/stop`, { method: "POST" }),
 };
+
+export type Api = typeof realApi;
+
+// DEMO mode runs a fake server inside the app (for the browser test version).
+export const api: Api = DEMO ? demoApi : realApi;
 
 /** QR on the charger: "hovo://station/HOVO-001?connector=1", an https link with the same path, or just "HOVO-001". */
 export function parseStationQr(data: string): { stationId: string; connector?: number } | null {

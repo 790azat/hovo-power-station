@@ -1,23 +1,17 @@
 // Home: map with all stations + balance, active charging and QR scan.
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import MapView, { Marker, type Region } from "react-native-maps";
-import * as Location from "expo-location";
 import { router, useFocusEffect } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { api, type Me, type Station } from "../lib/api";
 import { useT, type Lang } from "../lib/i18n";
 import { amd, colors } from "../lib/theme";
 import { Button, Card } from "../components/ui";
-
-const YEREVAN: Region = { latitude: 40.1792, longitude: 44.4991, latitudeDelta: 0.12, longitudeDelta: 0.12 };
-
-const markerColor = (s: Station) => (!s.online ? colors.offline : s.freeConnectors > 0 ? colors.primary : colors.warn);
+import { StationMap } from "../components/StationMap";
 
 export default function Home() {
   const { t, lang, setLang } = useT();
   const insets = useSafeAreaInsets();
-  const map = useRef<MapView>(null);
   const [stations, setStations] = useState<Station[]>([]);
   const [me, setMe] = useState<Me | null>(null);
   const [selected, setSelected] = useState<Station | null>(null);
@@ -41,40 +35,17 @@ export default function Home() {
     }, [load]),
   );
 
-  const locate = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") return;
-    const pos = await Location.getCurrentPositionAsync({});
-    map.current?.animateToRegion({ ...YEREVAN, latitude: pos.coords.latitude, longitude: pos.coords.longitude, latitudeDelta: 0.05, longitudeDelta: 0.05 });
-  };
-
   const active = me?.active[0];
   const langs: Lang[] = ["hy", "ru", "en"];
 
   return (
     <View style={{ flex: 1 }}>
-      <MapView
-        ref={map}
-        style={StyleSheet.absoluteFill}
-        initialRegion={YEREVAN}
-        showsUserLocation
-        onPress={() => setSelected(null)}
-      >
-        {stations.filter((s) => s.lat != null && s.lng != null).map((s) => (
-          <Marker
-            key={s.id}
-            coordinate={{ latitude: s.lat!, longitude: s.lng! }}
-            onPress={(e) => {
-              e.stopPropagation();
-              setSelected(s);
-            }}
-          >
-            <View style={[st.pin, { backgroundColor: markerColor(s) }, selected?.id === s.id && st.pinSelected]}>
-              <Text style={st.pinText}>⚡</Text>
-            </View>
-          </Marker>
-        ))}
-      </MapView>
+      <StationMap
+        stations={stations}
+        selectedId={selected?.id ?? null}
+        onSelect={setSelected}
+        locateBottom={(selected ? 250 : 230) + insets.bottom}
+      />
 
       {/* Top bar: balance + language + history */}
       <View style={[st.top, { paddingTop: insets.top + 8 }]}>
@@ -104,10 +75,6 @@ export default function Home() {
         )}
         {error && <Card style={st.topCard}><Text style={{ color: colors.danger }}>{error}</Text></Card>}
       </View>
-
-      <Pressable style={[st.locate, { bottom: (selected ? 330 : 230) + insets.bottom }]} onPress={locate}>
-        <Text style={{ fontSize: 20 }}>📍</Text>
-      </Pressable>
 
       {/* Bottom panel */}
       <View style={[st.bottom, { paddingBottom: insets.bottom + 12 }]}>
@@ -163,18 +130,7 @@ const st = StyleSheet.create({
   langText: { fontSize: 13, fontWeight: "600", color: colors.text },
   activeText: { color: "#fff", fontSize: 16, fontWeight: "600" },
   input: {
-    flex: 1, borderWidth: 1, borderColor: colors.border, borderRadius: 14, paddingHorizontal: 14,
+    flex: 1, minWidth: 0, borderWidth: 1, borderColor: colors.border, borderRadius: 14, paddingHorizontal: 14,
     fontSize: 17, color: colors.text, backgroundColor: colors.bg,
-  },
-  pin: {
-    width: 38, height: 38, borderRadius: 19, alignItems: "center", justifyContent: "center",
-    borderWidth: 3, borderColor: "#fff",
-  },
-  pinSelected: { transform: [{ scale: 1.25 }] },
-  pinText: { fontSize: 18 },
-  locate: {
-    position: "absolute", right: 16, width: 48, height: 48, borderRadius: 24, backgroundColor: colors.card,
-    alignItems: "center", justifyContent: "center", elevation: 3,
-    shadowColor: "#000", shadowOpacity: 0.15, shadowRadius: 6, shadowOffset: { width: 0, height: 2 },
   },
 });

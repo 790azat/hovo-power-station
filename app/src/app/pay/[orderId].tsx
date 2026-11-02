@@ -1,8 +1,9 @@
 // Payment page (Idram or bank 3-D Secure). After payment we wait for the server to confirm and open the session.
 import { useEffect, useState } from "react";
-import { ActivityIndicator, Alert, Text } from "react-native";
+import { ActivityIndicator, Text } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { api } from "../../lib/api";
+import { notify } from "../../lib/alert";
 import { useT } from "../../lib/i18n";
 import { colors } from "../../lib/theme";
 import { Center } from "../../components/ui";
@@ -26,7 +27,7 @@ export default function Pay() {
         }
         if (o.status === "failed") {
           stop = true;
-          Alert.alert(t("paymentCancelled"));
+          notify(t("paymentCancelled"));
           return router.back();
         }
       } catch {}
@@ -54,7 +55,7 @@ export default function Pay() {
       onResult={(ok) => {
         if (ok) setWaiting(true);
         else {
-          Alert.alert(t("paymentCancelled"));
+          notify(t("paymentCancelled"));
           router.back();
         }
       }}

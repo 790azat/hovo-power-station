@@ -4,3 +4,6 @@ import Constants from "expo-constants";
 // On a real phone "localhost" is the phone itself — use your computer's LAN IP or the deployed URL.
 export const API_URL: string =
   process.env.EXPO_PUBLIC_API_URL ?? (Constants.expoConfig?.extra?.apiUrl as string) ?? "http://localhost:8080";
+
+// EXPO_PUBLIC_DEMO=1: no server needed, stations/payments/charging are simulated in the app.
+export const DEMO = process.env.EXPO_PUBLIC_DEMO === "1";

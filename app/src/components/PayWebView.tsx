@@ -3,9 +3,11 @@ import { useRef } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { WebView, type WebViewNavigation } from "react-native-webview";
 import { colors } from "../lib/theme";
+import { DemoPayPage } from "./DemoPayPage";
 
 export function PayWebView({ url, onResult }: { url: string; onResult: (ok: boolean) => void }) {
   const finished = useRef(false);
+  if (url.startsWith("demo:")) return <DemoPayPage url={url} onResult={onResult} />;
   const onNav = (nav: WebViewNavigation) => {
     if (finished.current) return;
     const u = nav.url;

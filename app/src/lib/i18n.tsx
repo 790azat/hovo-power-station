@@ -100,10 +100,12 @@ export function LangProvider({ children }: { children: ReactNode }) {
     setLangState(l);
     AsyncStorage.setItem("hovo.lang", l).catch(() => {});
   };
-  return <Ctx.Provider value={{ lang, setLang, t: (k) => dict[k][lang] }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ lang, setLang, t: (k) => dict[k]?.[lang] ?? "" }}>{children}</Ctx.Provider>;
 }
 
 export const useT = () => useContext(Ctx);
+
+export const hasKey = (k: string): k is Key => k in dict;
 
 export function errorText(t: (k: Key) => string, code: string) {
   const key = ("err_" + code) as Key;
