@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # Hovo Power server: install or update on a fresh Ubuntu 22.04/24.04 VPS.
 #   curl -fsSL https://raw.githubusercontent.com/790azat/hovo-power-station/main/deploy/install.sh | sudo bash
+# Optional: BRANCH=<git branch> (default main)
 # Optional: DOMAIN=api.hovo.am (otherwise <ip>.sslip.io is used, which still gets a real https certificate)
 set -euo pipefail
 REPO=https://github.com/790azat/hovo-power-station.git
 DIR=/opt/hovo
+BRANCH=${BRANCH:-main}
 
 echo "==> Packages"
 export DEBIAN_FRONTEND=noninteractive
@@ -25,7 +27,7 @@ if ! command -v caddy >/dev/null; then
 fi
 
 echo "==> Code"
-if [ -d "$DIR/src/.git" ]; then git -C "$DIR/src" pull -q; else git clone -q --depth 1 "$REPO" "$DIR/src"; fi
+if [ -d "$DIR/src/.git" ]; then git -C "$DIR/src" pull -q; else git clone -q --depth 1 --branch "$BRANCH" "$REPO" "$DIR/src"; fi
 rm -rf "$DIR/web" && git clone -q --depth 1 --branch web-live "$REPO" "$DIR/web"
 (cd "$DIR/src/server" && npm ci --omit=dev --silent)
 mkdir -p "$DIR/data"
