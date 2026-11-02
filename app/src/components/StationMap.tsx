@@ -4,7 +4,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 
-import { markerColor, st, YEREVAN, type StationMapProps } from "./StationMap.shared";
+import { darkMapStyle, markerColor, st, YEREVAN, type StationMapProps } from "./StationMap.shared";
 
 export { YEREVAN, markerColor };
 
@@ -20,7 +20,7 @@ export function StationMap({ stations, selectedId, onSelect, locateBottom }: Sta
   };
   return (
     <>
-      <MapView ref={map} style={StyleSheet.absoluteFill} initialRegion={YEREVAN} showsUserLocation onPress={() => onSelect(null)}>
+      <MapView ref={map} style={StyleSheet.absoluteFill} initialRegion={YEREVAN} showsUserLocation customMapStyle={darkMapStyle} userInterfaceStyle="dark" onPress={() => onSelect(null)}>
         {stations.filter((s) => s.lat != null && s.lng != null).map((s) => (
           <Marker
             key={s.id}
@@ -30,14 +30,16 @@ export function StationMap({ stations, selectedId, onSelect, locateBottom }: Sta
               onSelect(s);
             }}
           >
-            <View style={[st.pin, { backgroundColor: markerColor(s) }, selectedId === s.id && st.pinSelected]}>
-              <Text style={st.pinText}>⚡</Text>
+            <View style={[st.pinHalo, { backgroundColor: markerColor(s) + "33" }, selectedId === s.id && st.pinSelected]}>
+              <View style={[st.pin, { backgroundColor: markerColor(s) }]}>
+                <Text style={st.pinText}>⚡</Text>
+              </View>
             </View>
           </Marker>
         ))}
       </MapView>
       <Pressable style={[st.locate, { bottom: locateBottom }]} onPress={locate}>
-        <Text style={{ fontSize: 20 }}>📍</Text>
+        <Text style={{ fontSize: 20, color: "#a3f75a" }}>➤</Text>
       </Pressable>
     </>
   );

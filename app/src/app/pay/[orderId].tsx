@@ -44,7 +44,7 @@ export default function Pay() {
     return (
       <Center>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={{ fontSize: 17, textAlign: "center" }}>{t("waitingPayment")}</Text>
+        <Text style={{ fontSize: 17, textAlign: "center", color: colors.text }}>{t("waitingPayment")}</Text>
       </Center>
     );
   }

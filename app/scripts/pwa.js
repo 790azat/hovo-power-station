@@ -17,9 +17,9 @@ html = html.replace(
     `<link rel="apple-touch-icon" href="${base}/apple-touch-icon.png">`,
     '<meta name="apple-mobile-web-app-capable" content="yes">',
     '<meta name="mobile-web-app-capable" content="yes">',
-    '<meta name="apple-mobile-web-app-status-bar-style" content="default">',
+    '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">',
     '<meta name="apple-mobile-web-app-title" content="Hovo">',
-    "<style>body{background:#f5f7f6}</style>",
+    "<style>body{background:#06120c}</style>",
     "</head>",
   ].join("\n"),
 );

@@ -10,14 +10,16 @@ function Nav() {
     <Stack
       screenOptions={{
         headerTintColor: colors.text,
-        headerStyle: { backgroundColor: colors.card },
+        headerStyle: { backgroundColor: colors.bg },
+        headerShadowVisible: false,
+        headerTitleStyle: { fontWeight: "700", color: colors.text },
         contentStyle: { backgroundColor: colors.bg },
         headerBackButtonDisplayMode: "minimal",
       }}
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="scan" options={{ title: t("scanQr"), presentation: "fullScreenModal", headerShown: false }} />
-      <Stack.Screen name="station/[id]" options={{ title: t("station") }} />
+      <Stack.Screen name="station/[id]" options={{ title: "" }} />
       <Stack.Screen name="pay/[orderId]" options={{ title: t("payment"), gestureEnabled: false }} />
       <Stack.Screen name="session/[id]" options={{ title: t("session"), headerBackVisible: false, gestureEnabled: false }} />
       <Stack.Screen name="history" options={{ title: t("history") }} />
@@ -28,9 +30,9 @@ function Nav() {
 
 export default function RootLayout() {
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={{ backgroundColor: colors.bg }}>
       <LangProvider>
-        <StatusBar style="dark" />
+        <StatusBar style="light" />
         <Nav />
       </LangProvider>
     </SafeAreaProvider>

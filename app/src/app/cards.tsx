@@ -2,12 +2,19 @@
 import { useCallback, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Stack, useFocusEffect } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 import { api, ApiError, type SavedCard } from "../lib/api";
 import { errorText, useT } from "../lib/i18n";
-import { colors } from "../lib/theme";
-import { Button, Card } from "../components/ui";
+import { colors, font, radius } from "../lib/theme";
+import { Button } from "../components/ui";
 import { PayWebView } from "../components/PayWebView";
 import { confirm, notify } from "../lib/alert";
+
+const CARD_GRADIENTS = [
+  ["#1f5132", "#0d2a1a"],
+  ["#1e3a8a", "#0b1a40"],
+  ["#4c1d95", "#1e0b40"],
+] as const;
 
 export default function Cards() {
   const { t } = useT();
@@ -52,27 +59,39 @@ export default function Cards() {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16, gap: 12 }}>
+    <ScrollView style={{ backgroundColor: colors.bg }} contentContainerStyle={{ padding: 16, gap: 14 }}>
       <Stack.Screen options={{ title: t("myCards") }} />
-      {cards.length === 0 && <Text style={s.muted}>{t("noCards")}</Text>}
-      {cards.map((c) => (
-        <Card key={c.id} style={s.row}>
-          <Text style={s.text}>💳  {c.maskedPan}</Text>
-          <Pressable onPress={() => remove(c)} hitSlop={12}>
-            <Text style={{ color: colors.danger, fontSize: 20 }}>✕</Text>
-          </Pressable>
-        </Card>
+      {cards.length === 0 && (
+        <View style={{ alignItems: "center", gap: 10, marginVertical: 20 }}>
+          <Text style={{ fontSize: 44 }}>💳</Text>
+          <Text style={font.small}>{t("noCards")}</Text>
+        </View>
+      )}
+      {cards.map((c, i) => (
+        <LinearGradient key={c.id} colors={CARD_GRADIENTS[i % CARD_GRADIENTS.length]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={s.bankCard}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <View style={s.chipIcon} />
+            <Pressable onPress={() => remove(c)} hitSlop={12} style={s.del}>
+              <Text style={{ color: "#fff", fontSize: 14 }}>✕</Text>
+            </Pressable>
+          </View>
+          <Text style={s.pan}>{c.maskedPan}</Text>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Text style={s.small}>HOVO POWER</Text>
+            <Text style={s.small}>{c.expiry ?? ""}</Text>
+          </View>
+        </LinearGradient>
       ))}
-      <Button title={t("addCard")} onPress={add} loading={busy} />
-      <Text style={s.muted}>{t("cardNote")}</Text>
-      <View style={{ height: 8 }} />
-      <Text style={s.muted}>Idram: {t("payIdram")}</Text>
+      <Button title={t("addCard").replace("+ ", "")} icon="+" onPress={add} loading={busy} />
+      <Text style={[font.small, { textAlign: "center" }]}>{t("cardNote")}</Text>
     </ScrollView>
   );
 }
 
 const s = StyleSheet.create({
-  row: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  text: { fontSize: 17, color: colors.text },
-  muted: { fontSize: 14, color: colors.muted, textAlign: "center" },
+  bankCard: { borderRadius: radius.lg, padding: 20, gap: 22, aspectRatio: 1.7, justifyContent: "space-between", borderWidth: 1, borderColor: "rgba(255,255,255,0.12)" },
+  chipIcon: { width: 42, height: 30, borderRadius: 6, backgroundColor: "#e5c86b" },
+  del: { width: 30, height: 30, borderRadius: 15, backgroundColor: "rgba(0,0,0,0.3)", alignItems: "center", justifyContent: "center" },
+  pan: { color: "#fff", fontSize: 22, fontWeight: "700", letterSpacing: 2 },
+  small: { color: "rgba(255,255,255,0.7)", fontSize: 12, fontWeight: "700", letterSpacing: 1.5 },
 });
