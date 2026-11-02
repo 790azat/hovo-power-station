@@ -10,6 +10,7 @@ import { notify } from "../../lib/alert";
 import { errorText, useT } from "../../lib/i18n";
 import { amd, colors, font, gradients, radius } from "../../lib/theme";
 import { Button, Center, Chip, Label, Selectable } from "../../components/ui";
+import { IdramBadge } from "../../components/IdramBadge";
 
 const PRESETS = [1000, 3000, 5000, 10000];
 const isFree = (c: Connector) => c.status === "Available" && !c.busy;
@@ -175,7 +176,7 @@ export default function StationScreen() {
               </Selectable>
             ))}
             <Selectable selected={pay.kind === "idram"} onPress={() => setPay({ kind: "idram" })} style={s.row}>
-              <View style={[s.payIcon, { backgroundColor: "#f97316" }]}><Text style={[s.payIconText, { color: "#fff", fontWeight: "900" }]}>i</Text></View>
+              <IdramBadge />
               <Text style={[s.rowTitle, { flex: 1 }]}>Idram</Text>
               <Radio on={pay.kind === "idram"} />
             </Selectable>

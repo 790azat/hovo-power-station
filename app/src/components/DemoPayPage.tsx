@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { demoPay } from "../lib/demo";
 import { amd, colors, font, radius } from "../lib/theme";
 import { Button } from "./ui";
+import { IdramBadge } from "./IdramBadge";
 
 export function DemoPayPage({ url, onResult }: { url: string; onResult: (ok: boolean) => void }) {
   const info = demoPay.describe(url);
@@ -15,14 +16,18 @@ export function DemoPayPage({ url, onResult }: { url: string; onResult: (ok: boo
     await demoPay.complete(url, ok, pan);
     onResult(ok);
   };
-  const brand = isCard ? "#3b82f6" : "#f97316";
+  const brand = isCard ? "#3b82f6" : "#ff6a00";
   return (
     <View style={s.wrap}>
       <View style={s.panel}>
         <Text style={s.badge}>DEMO</Text>
-        <View style={[s.logo, { backgroundColor: brand }]}>
-          <Text style={s.logoText}>{isCard ? "💳" : "i"}</Text>
-        </View>
+        {isCard ? (
+          <View style={[s.logo, { backgroundColor: brand }]}>
+            <Text style={s.logoText}>💳</Text>
+          </View>
+        ) : (
+          <IdramBadge size={64} />
+        )}
         <Text style={[font.h2, { color: brand }]}>{info?.title ?? "Payment"}</Text>
         <Text style={s.amount}>{amd(info?.amount ?? 0)}</Text>
         {isCard && (
