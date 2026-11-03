@@ -1,0 +1,7 @@
+/* OpenStreetMap tiles (no API key needed) turned into a calm dark map */
+.hovo-dark-tiles {
+  filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.35);
+}
+.leaflet-container { background: #121417; }
+.leaflet-control-attribution { background: rgba(13, 15, 18, 0.7) !important; color: #8c939d !important; }
+.leaflet-control-attribution a { color: #8c939d !important; }

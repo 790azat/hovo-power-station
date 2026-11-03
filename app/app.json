@@ -1,0 +1,51 @@
+{
+  "expo": {
+    "name": "Hovo Power",
+    "slug": "hovo-power",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "am.hovo.power",
+      "infoPlist": {
+        "LSApplicationQueriesSchemes": [
+          "yandexnavi",
+          "yandexmaps"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#15181d",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "am.hovo.power"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "scheme": "hovo",
+    "plugins": [
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Камера нужна, чтобы сканировать QR-код на зарядной станции / Տեսախցիկն անհրաժեշտ է QR կոդը սկանավորելու համար",
+          "recordAudioAndroid": false
+        }
+      ]
+    ],
+    "extra": {
+      "apiUrl": "http://localhost:8080"
+    }
+  }
+}
