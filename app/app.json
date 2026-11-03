@@ -13,7 +13,11 @@
         "LSApplicationQueriesSchemes": [
           "yandexnavi",
           "yandexmaps"
-        ]
+        ],
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "config": {
+        "usesNonExemptEncryption": false
       }
     },
     "android": {

@@ -1,0 +1,56 @@
+# Builds the iOS app on Expo (EAS) and uploads it to TestFlight.
+# Run it from GitHub: Actions -> "iOS TestFlight" -> Run workflow.
+#
+# One-time setup (repo Settings -> Secrets and variables -> Actions):
+#   Secrets:   EXPO_TOKEN      expo.dev -> Account settings -> Access tokens
+#              ASC_KEY_ID      App Store Connect -> Users and Access -> Integrations -> App Store Connect API (role: Admin)
+#              ASC_ISSUER_ID   same page, "Issuer ID"
+#              ASC_KEY_P8      full text of the downloaded AuthKey_XXXX.p8 file
+#   Variables: EXPO_OWNER      your expo.dev username
+#              EAS_PROJECT_ID  expo.dev -> project "hovo-power" -> Project ID
+#              APPLE_TEAM_ID   developer.apple.com -> Membership -> Team ID
+#              ASC_APP_ID      App Store Connect -> the app -> App Information -> Apple ID (a number)
+name: iOS TestFlight
+on:
+  workflow_dispatch:
+    inputs:
+      api_url:
+        description: "Server address, e.g. https://1-2-3-4.sslip.io. Leave 'demo' for the built-in demo mode."
+        default: demo
+jobs:
+  testflight:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: app } }
+    env:
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      EXPO_OWNER: ${{ vars.EXPO_OWNER }}
+      EAS_PROJECT_ID: ${{ vars.EAS_PROJECT_ID }}
+      EXPO_APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
+      EXPO_APPLE_TEAM_TYPE: INDIVIDUAL
+      EXPO_ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      EXPO_ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      EXPO_ASC_API_KEY_PATH: ${{ github.workspace }}/asc.p8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: app/package-lock.json }
+      - name: Check setup
+        run: |
+          for v in EXPO_TOKEN EXPO_OWNER EAS_PROJECT_ID EXPO_APPLE_TEAM_ID EXPO_ASC_KEY_ID EXPO_ASC_ISSUER_ID; do
+            [ -n "${!v}" ] || { echo "::error::$v is not set (see the top of this workflow file)"; exit 1; }
+          done
+          [ -n "${{ vars.ASC_APP_ID }}" ] || { echo "::error::ASC_APP_ID variable is not set"; exit 1; }
+      - name: App Store Connect key
+        env: { ASC_KEY_P8: "${{ secrets.ASC_KEY_P8 }}" }
+        run: printf '%s\n' "$ASC_KEY_P8" > "$EXPO_ASC_API_KEY_PATH"
+      - name: Build settings
+        env: { API_URL: "${{ inputs.api_url }}", ASC_APP_ID: "${{ vars.ASC_APP_ID }}" }
+        run: |
+          if [ "$API_URL" = "demo" ]; then DEMO=1; URL=""; else DEMO=0; URL="$API_URL"; fi
+          jq --arg d "$DEMO" --arg u "$URL" --arg a "$ASC_APP_ID" \
+            '.build.production.env.EXPO_PUBLIC_DEMO=$d | .build.production.env.EXPO_PUBLIC_API_URL=$u | .submit.production.ios.ascAppId=$a' \
+            eas.json > eas.tmp && mv eas.tmp eas.json
+          cat eas.json
+      - run: npm ci
+      - name: Build on EAS and send to TestFlight
+        run: npx --yes eas-cli@latest build --platform ios --profile production --non-interactive --auto-submit
