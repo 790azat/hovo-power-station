@@ -39,6 +39,9 @@ export const config = {
     stationAddress: process.env.SEED_STATION_ADDRESS ?? "Yerevan",
     pricePerKwh: Number(process.env.SEED_PRICE_PER_KWH ?? 120), // AMD per kWh
     connectors: Number(process.env.SEED_CONNECTORS ?? 2),
+    // Tellus Power 60 kW DC charger: two DC plugs. Set the real plug types, e.g. "CCS2,GB/T" or "CCS2,CHAdeMO".
+    connectorTypes: (process.env.SEED_CONNECTOR_TYPES ?? "CCS2,CCS2").split(",").map((x) => x.trim()),
+    connectorKw: Number(process.env.SEED_CONNECTOR_KW ?? 60),
     lat: Number(process.env.SEED_LAT ?? 40.1772), // Yerevan center; set the real coordinates
     lng: Number(process.env.SEED_LNG ?? 44.5035),
   },

@@ -99,7 +99,9 @@ if (!existing) {
     s.stationId, s.stationName, s.stationAddress, s.pricePerKwh, s.lat, s.lng,
   );
   for (let c = 1; c <= s.connectors; c++) {
-    db.prepare("INSERT INTO connectors (station_id, connector_id) VALUES (?, ?)").run(s.stationId, c);
+    db.prepare("INSERT INTO connectors (station_id, connector_id, type, max_kw) VALUES (?, ?, ?, ?)").run(
+      s.stationId, c, s.connectorTypes[c - 1] ?? s.connectorTypes[0] ?? "CCS2", s.connectorKw,
+    );
   }
 }
 

@@ -2,6 +2,7 @@
 //   node src/admin.ts list
 //   node src/admin.ts add --id HOVO-002 --name "Hovo Gyumri" --address "Gyumri, ..." --lat 40.79 --lng 43.84 --price 120 --connectors 2
 //   node src/admin.ts set --id HOVO-001 --lat 40.18 --lng 44.51 --price 130
+//   node src/admin.ts plug --id HOVO-001 --connector 2 --type "GB/T" --kw 60
 // The --id must equal the chargePointId the charger uses in its OCPP URL.
 import { parseArgs } from "node:util";
 import { db, q } from "./db.ts";
@@ -11,6 +12,7 @@ const { positionals, values: v } = parseArgs({
   options: {
     id: { type: "string" }, name: { type: "string" }, address: { type: "string" },
     lat: { type: "string" }, lng: { type: "string" }, price: { type: "string" }, connectors: { type: "string" },
+    connector: { type: "string" }, type: { type: "string" }, kw: { type: "string" },
   },
 });
 
@@ -26,6 +28,11 @@ if (cmd === "list") {
     db.prepare("INSERT INTO connectors (station_id, connector_id) VALUES (?, ?)").run(v.id, c);
   }
   console.log("added", v.id);
+} else if (cmd === "plug") {
+  if (!v.id || !v.connector || !q.connector(v.id, Number(v.connector))) throw new Error("unknown --id/--connector");
+  if (v.type) db.prepare("UPDATE connectors SET type = ? WHERE station_id = ? AND connector_id = ?").run(v.type, v.id, Number(v.connector));
+  if (v.kw) db.prepare("UPDATE connectors SET max_kw = ? WHERE station_id = ? AND connector_id = ?").run(Number(v.kw), v.id, Number(v.connector));
+  console.table(q.connectors(v.id));
 } else if (cmd === "set") {
   if (!v.id || !q.station(v.id)) throw new Error("unknown --id");
   const cols: Record<string, string | number | undefined> = {
